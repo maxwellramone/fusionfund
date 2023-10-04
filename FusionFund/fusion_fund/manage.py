@@ -26,11 +26,11 @@ if __name__ == '__main__':
 
 
 
-def getTitle(url):
+def getContent(url):
 	import requests
 	from bs4 import BeautifulSoup
-
-	url = 'https://www.reuters.com/legal/appeals-court-will-not-delay-donald-trump-civil-fraud-trial-2023-09-28/'
+	content = ""
+	url = 'https://www.ft.com/content/4c64ffc1-f57b-4e22-a4a5-f9f90a7419b7'
 
 	try:
 		response = requests.get(url)
@@ -40,14 +40,18 @@ def getTitle(url):
 			soup = BeautifulSoup(response.text, 'html.parser')
 			
 			# article_titles = soup.find_all('title', class_='html.parser')  # Use a dictionary for attributes
-			article_titles = soup.find_all('p')
-			for title in article_titles:
-				print(title.text)
+			article_paragraphs = soup.find_all('p')
+			for paragraph in article_paragraphs:
+				content.append(paragraph)
+			return content
 		else:
 			print('Failed. Code:', response.status_code)
+		
 
 	except requests.exceptions.RequestException as e:
 		print('Request Exception:', e)
 
 	except Exception as e:
 		print('An error occurred:', e)
+
+	return
